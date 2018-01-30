@@ -1,9 +1,8 @@
+# install.packages("mvtnorm") 
 options(digits=4)
 library(mvtnorm)
 
-#
 # bivariate normal distribution
-#
 
 mu.x = 0.05
 sig.x = 0.10
