@@ -1,9 +1,5 @@
 Biavariate normal distribution
 
-- [1.Bivariate normal - -0.9.png](#1Bivariate 0.9 )
-- [2.Bivariate normal rho-0.png](#2Bivariate normal 0)
-- [3.Bivariate normal.png](#3Bivariate noraml)
-
 ### 1.Bivariate 0.9
   ![](https://github.com/data-science-analytics/statistical-modeling/blob/master/bivariate-normal/results/Bivariate%20normal%20-%20-0.9.png)
 ### 2.Bivariate normal 0
