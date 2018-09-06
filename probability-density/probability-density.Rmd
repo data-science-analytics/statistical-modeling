@@ -1,0 +1,67 @@
+---
+title: "Prabability Density"
+author: "Raveendra Swarna"
+date: "9/5/2018"
+output: html_document
+---
+
+# Overview
+This is a quick demonstration of probability density functions (PDFs) from an intuition perspective. I don’t claim to have a complete understanding of the calculus behind PDFs, but I hope the following simulation helps provide a feel for what is going on.
+
+# Simulate and Plot Data
+Let’s start with a uniform distribution.
+
+```{r}
+library(ggplot2)
+library(gridExtra)
+#simulate data going from .0001 to 1 by a step of .0001
+n <- 1000
+df <- data.frame(rnum=seq.int(n),val=seq(1/n,1,1/n))
+ggplot(df,aes(val))+geom_density(fill = "turquoise",alpha=.5 )+
+          ggtitle("Uniform Density")
+```
+
+Now, let’s take 80% of these observations and set them to a single value of .9. Notice that the y-axis goes far above the limit of 1 in the uniform distribution.
+
+
+```{r}
+df2 <- df
+set.seed(123)
+shift <- sample(c(1,0),n,prob=c(.8,.2),replace=TRUE)
+df2$val <- ifelse(shift==1,.9,df2$val)
+ggplot(df2,aes(val))+geom_density(fill = "coral",alpha=.5)+
+          ggtitle("Non-Uniform Density")
+```
+
+As a motivating analogy, consider the uniform distribution in the first plot to be a container of water filled to marker 1. Then, consider the second (skewed) plot as taking a solid object and pressing down on the left side of that container, forcing the water up and to the right. This concept of pressing a single volume of water into a different shape is the same as what is happening with the probability density function. It is the same area underneath in both plots, but the density is much higher on the right side in the skewed plot.
+
+## Scaling
+Many times, it’s more intuitive to “scale” the y-axis to reflect a more probability-focused mindset. In the second plot above, a peak around 7 on the y-axis seems fairly arbitrary. Putting the y-axis on a 0-1 scale provides some level of perspective. Here is an example…
+
+```{r}
+ggplot(df2,aes(val,..scaled..))+geom_density(fill = "coral",alpha=.5)+
+          ggtitle("Non-Uniform Density (Scaled)")
+```
+
+However, when comparing two distinct populations, scaling may not be appropriate. Consider the original two plots above. If you scale them both and compare them, it appears that the uniform density is massive compared to all but a small pointed section of the non-uniform density. This is misleading…
+
+```{r}
+gg1 <- ggplot(df,aes(val,..scaled..))+geom_density(fill = "turquoise",alpha=.5)+
+          ggtitle("Uniform Density (Scaled)")
+gg2 <- ggplot(df2,aes(val,..scaled..))+geom_density(fill = "coral",alpha=.5)+
+          ggtitle("Non-Uniform Density (Scaled)")
+grid.arrange(gg1,gg2,ncol=2)
+```
+
+It conveys more about the distribtions to put them on a density scale, such that the area underneath both lines is 1. This allows for a more direct comparison between populations…
+
+```{r}
+gg3 <- ggplot(df,aes(val))+geom_density(fill = "turquoise",alpha=.5)+
+          ggtitle("Uniform Density") + scale_y_continuous(limits=c(0,8))
+gg4 <- ggplot(df2,aes(val))+geom_density(fill = "coral",alpha=.5)+
+          ggtitle("Non-Uniform Density") + scale_y_continuous(limits=c(0,8))
+grid.arrange(gg3,gg4,ncol=2)
+```
+
+
+
